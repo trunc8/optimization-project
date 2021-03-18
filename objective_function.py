@@ -1,14 +1,14 @@
+# This script is not meant to be executed alone. It will be called by other
+# optimizer modules to evaluate the objective function for 
+# different parameter values
+
 import numpy as np
 import cmath as cm
-from scipy.optimize import differential_evolution
 
-parameters = []
-
-def objective1(design_variables):
+# Function to evaluate the objective function and return the value for given values of parameters and design variables
+def objective_function_1(parameters, design_variables):
   # design variables = [k1,k2,k4,k5,c1,c2,c4,c5,b1,b2,w1,w2]
-  # parameters = [omega]
-  global parameters
-
+  # parameters = [omega, m3]
   # Assigning the design variables
   k1 = design_variables[0]
   k2 = design_variables[1]
@@ -35,16 +35,13 @@ def objective1(design_variables):
   exp2 = complex(k1*w2*w2 + k2*w2*w2 + k4*w1*w1 + k5*w1*w1 - (m3*omega*omega*w1*w1 -w1*w2 + w2*w2)/3, omega*(c1*w2*w2 + c2*w2*w2 + c4*w1*w1 + c5*w1*w1)) - (exp5*exp5/exp7) - (exp3*exp3)/exp4
   exp1 = complex(0,-(1/omega)*(k1*w2 + k2*w2 - k4*w1 - k5*w1) + (exp3/exp4)*(k1*b1 - k2*b2 + k4*b1 - k5*b2 - (exp6/(exp7*omega))*(k1 + k2 + k4 + k5)) + (exp5/(exp7*omega))*(k1 + k2 + k4 + k5))
   exp0 = -(1/exp7)*(complex(0, (1/omega)*(k1 + k2 + k4 + k5)) - (exp6/exp4)*(complex(0, (1/omega)*(k1*b1 - k2*b2 + k4*b1 - k5*b2)) + (exp1*exp3)/exp2 - (exp6/(omega*exp7))*complex(0, (k1 + k2 + k4 + k5))) + (exp1*exp5)/exp2)
-  # Negative sign so that we achieve minimization
-  return -abs(exp0)
+  return abs(exp0)
 
-
-def objective2(design_variables):
-  # design variables = [omega]
+# Function to evaluate the objective function and return the value for given values of parameters and design variables
+def objective_function_2(parameters, design_variables):
+  # design variables = [omega, m3]
   # parameters = [k1,k2,k4,k5,c1,c2,c4,c5,b1,b2,w1,w2]
-  global parameters
-
-  # Assigning the design variable
+  # Assigning the design variables
   omega = design_variables[0]
   m3 = 100
 
@@ -72,68 +69,3 @@ def objective2(design_variables):
   exp1 = complex(0,-(1/omega)*(k1*w2 + k2*w2 - k4*w1 - k5*w1) + (exp3/exp4)*(k1*b1 - k2*b2 + k4*b1 - k5*b2 - (exp6/(exp7*omega))*(k1 + k2 + k4 + k5)) + (exp5/(exp7*omega))*(k1 + k2 + k4 + k5))
   exp0 = -(1/exp7)*(complex(0, (1/omega)*(k1 + k2 + k4 + k5)) - (exp6/exp4)*(complex(0, (1/omega)*(k1*b1 - k2*b2 + k4*b1 - k5*b2)) + (exp1*exp3)/exp2 - (exp6/(omega*exp7))*complex(0, (k1 + k2 + k4 + k5))) + (exp1*exp5)/exp2)
   return abs(exp0)
-
-
-def benchmark_cars():
-  global parameters
-  T = 10 # Number of iterations
-  params = [10]  # Initialising the parameters to the objective function
-  # np.random.seed(0)
-  best_values = np.zeros(13)
-  print('\n')
-
-  l1 = [(20121,30180)]*4
-  l2 = [(640,960)]*4
-  l3 = [(0,2)]*2
-  l4 = [(0,5)]*2
-  l1.extend(l2)
-  l1.extend(l3)
-  l1.extend(l4)
-  bounds1 = l1
-
-  bounds2 = [[-10,10]]
-
-  # Initialize with value of omega
-  parameters = [10]
-
-  for t in range(T):
-    print('------------- Start of Iteration {} ------------- \n'.format(t+1))
-    # Minimization over the 12 design variables relating to the car's build
-    result = differential_evolution(objective1, bounds1, seed=0)
-    parameters = result.x
-    best_values[:12] = parameters
-
-    # Maximization over frequency space using the output of previous minimization as parameters
-    result = differential_evolution(objective2, bounds2, seed=0)
-    parameters = result.x
-    best_values[12] = parameters
-
-    print("Optimal value of k1 after iteration {} = {} \n".format(t+1, best_values[0]))
-    print("Optimal value of k2 after iteration {} = {} \n".format(t+1, best_values[1]))
-    print("Optimal value of k4 after iteration {} = {} \n".format(t+1, best_values[2]))
-    print("Optimal value of k5 after iteration {} = {} \n".format(t+1, best_values[3]))
-    print("Optimal value of c1 after iteration {} = {} \n".format(t+1, best_values[4]))
-    print("Optimal value of c2 after iteration {} = {} \n".format(t+1, best_values[5]))
-    print("Optimal value of c4 after iteration {} = {} \n".format(t+1, best_values[6]))
-    print("Optimal value of c5 after iteration {} = {} \n".format(t+1, best_values[7]))
-    print("Optimal value of b1 after iteration {} = {} \n".format(t+1, best_values[8]))
-    print("Optimal value of b2 after iteration {} = {} \n".format(t+1, best_values[9]))
-    print("Optimal value of w1 after iteration {} = {} \n".format(t+1, best_values[10]))
-    print("Optimal value of w2 after iteration {} = {} \n".format(t+1, best_values[11]))
-    print('\n -------------- End of Iteration {} -------------- \n \n \n'.format(t+1))
-
-  print("Optimal value of k1 = {} \n".format(best_values[0]))
-  print("Optimal value of k2 = {} \n".format(best_values[1]))
-  print("Optimal value of k4 = {} \n".format(best_values[2]))
-  print("Optimal value of k5 = {} \n".format(best_values[3]))
-  print("Optimal value of c1 = {} \n".format(best_values[4]))
-  print("Optimal value of c2 = {} \n".format(best_values[5]))
-  print("Optimal value of c4 = {} \n".format(best_values[6]))
-  print("Optimal value of c5 = {} \n".format(best_values[7]))
-  print("Optimal value of b1 = {} \n".format(best_values[8]))
-  print("Optimal value of b2 = {} \n".format(best_values[9]))
-  print("Optimal value of w1 = {} \n".format(best_values[10]))
-  print("Optimal value of w2 = {} \n".format(best_values[11]))
-  print("Optimal value of omega = {} \n".format(best_values[12]))
-
-benchmark_cars()
