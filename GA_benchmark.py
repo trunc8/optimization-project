@@ -100,5 +100,5 @@ if __name__ == '__main__':
 
   stop = timeit.default_timer()
 
-  print(f'Time taken: {stop - start}') 
+  print(f'Time taken: {stop - start:.3f}s') 
   
