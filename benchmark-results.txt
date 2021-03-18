@@ -1,0 +1,67 @@
+
+### Using scipy's genetic algorithm
+
+Optimal value of k1 = 20121.0
+
+Optimal value of k2 = 30180.0
+
+Optimal value of k4 = 30180.0
+
+Optimal value of k5 = 20121.0
+
+Optimal value of c1 = 640.0
+
+Optimal value of c2 = 912.2785895379496
+
+Optimal value of c4 = 721.9453945963803
+
+Optimal value of c5 = 640.0
+
+Optimal value of b1 = 1.638862954452029
+
+Optimal value of b2 = 0.0
+
+Optimal value of w1 = 0.0
+
+Optimal value of w2 = 3.958081223283177
+
+Optimal value of omega = 4.765137147408139
+
+python GA-benchmark.py  11.58s user 1.20s system 121% cpu 10.544 total
+
+Time taken: 11.58s
+
+
+------------------------------------
+
+### Using our own implementation
+
+Optimal value of k1 = 79.93334394981413
+
+Optimal value of k2 = 6.005012169440953
+
+Optimal value of k4 = -48.06091659007777
+
+Optimal value of k5 = -16.54312544899095
+
+Optimal value of c1 = 20.694561909439436
+
+Optimal value of c2 = 127.52314308685433
+
+Optimal value of c4 = -91.61622248068885
+
+Optimal value of c5 = 120.0797781002538
+
+Optimal value of b1 = -125.20795561073513
+
+Optimal value of b2 = -19.555576495523525
+
+Optimal value of w1 = 62.82403462971688
+
+Optimal value of w2 = -5.1255659774056
+
+Optimal value of omega = -0.0018704314619810702
+
+python Genetic_Algorithm.py  50.86s user 0.68s system 102% cpu 50.421 tota
+
+Time taken: 50.86s
