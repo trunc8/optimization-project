@@ -59,9 +59,9 @@ def mutation_function(offspring):
     return offspring
 
 def runGeneticAlgorithm():
-  T = 10 # Number of iterations
+  T = 20 # Number of iterations
   # Bounds constraint for each design variable
-  bounds = [[20120,30180], [20120,30180], [20120,30180], [20120,30180], [640,960], [640,960], [640,960], [640,960], [1,10], [1,10], [1,10], [1,10]]
+  bounds = [[20120,30180], [20120,30180], [20120,30180], [20120,30180], [640,960], [640,960], [640,960], [640,960], [0,100], [0,100], [0,100], [0,100]]
   params = [10]  # Initialising the parameters to the objective function
   np.random.seed(0)
   best_values = np.zeros(13)
@@ -145,8 +145,6 @@ def runGeneticAlgorithm():
 
 
 if __name__ == '__main__':
-  print("\nThis script will benchmark our optimization objective against",
-    "scipy's genetic algorithm\n")
   print("Starting timer...\n")
 
   start = timeit.default_timer()

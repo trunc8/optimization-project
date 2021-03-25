@@ -1,67 +1,67 @@
 
-### Using scipy's genetic algorithm
+### Using scipy's genetic algorithm for 20 iterations
 
-Optimal value of k1 = 20121.0
+Optimal value of k1 = 20162.98764477598
 
-Optimal value of k2 = 30180.0
+Optimal value of k2 = 30140.998454199183
 
-Optimal value of k4 = 30180.0
+Optimal value of k4 = 30007.35584870856
 
-Optimal value of k5 = 20121.0
+Optimal value of k5 = 29977.172078851658
 
-Optimal value of c1 = 640.0
+Optimal value of c1 = 645.743040530963
 
-Optimal value of c2 = 912.2785895379496
+Optimal value of c2 = 959.513888627005
 
-Optimal value of c4 = 721.9453945963803
+Optimal value of c4 = 640.4124577636388
 
-Optimal value of c5 = 640.0
+Optimal value of c5 = 640.5883092078608
 
-Optimal value of b1 = 1.638862954452029
+Optimal value of b1 = 0.0
 
-Optimal value of b2 = 0.0
+Optimal value of b2 = 47.78174561066997
 
 Optimal value of w1 = 0.0
 
-Optimal value of w2 = 3.958081223283177
+Optimal value of w2 = 72.4951919663581
 
-Optimal value of omega = 4.765137147408139
+Optimal value of omega = -100.0
 
-python GA-benchmark.py  11.58s user 1.20s system 121% cpu 10.544 total
+python GA-benchmark.py  42.871s 
 
-Time taken: 11.58s
+Time taken: 42.871s
 
 
 ------------------------------------
 
-### Using our own implementation
+### Using our own implementation for 20 iterations
 
-Optimal value of k1 = 79.93334394981413
+Optimal value of k1 = 20121.155705075595
 
-Optimal value of k2 = 6.005012169440953
+Optimal value of k2 = 30179.705021892576
 
-Optimal value of k4 = -48.06091659007777
+Optimal value of k4 = 30179.31103189702
 
-Optimal value of k5 = -16.54312544899095
+Optimal value of k5 = 20120.163914637382
 
-Optimal value of c1 = 20.694561909439436
+Optimal value of c1 = 958.0500081310057
 
-Optimal value of c2 = 127.52314308685433
+Optimal value of c2 = 649.5355591826025
 
-Optimal value of c4 = -91.61622248068885
+Optimal value of c4 = 959.1944997603845
 
-Optimal value of c5 = 120.0797781002538
+Optimal value of c5 = 649.6619090265905
 
-Optimal value of b1 = -125.20795561073513
+Optimal value of b1 = 0.15577620175378826
 
-Optimal value of b2 = -19.555576495523525
+Optimal value of b2 = 99.81056706406142
 
-Optimal value of w1 = 62.82403462971688
+Optimal value of w1 = 0.03687235788051524
 
-Optimal value of w2 = -5.1255659774056
+Optimal value of w2 = 99.7848480516423
 
-Optimal value of omega = -0.0018704314619810702
+Optimal value of omega = 0.0009298471135821273
 
-python Genetic_Algorithm.py  50.86s user 0.68s system 102% cpu 50.421 tota
+python Genetic_Algorithm.py  188.881s 
 
-Time taken: 50.86s
+Time taken: 188.881s
