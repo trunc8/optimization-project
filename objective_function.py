@@ -6,7 +6,7 @@ import numpy as np
 import cmath as cm
 
 # Function to evaluate the objective function and return the value for given values of parameters and design variables
-def objective_function_1(parameters, design_variables):
+def objective_function_1(parameters, design_variables, bounds):
   # design variables = [k1,k2,k4,k5,c1,c2,c4,c5,b1,b2,w1,w2]
   # parameters = [omega, m3]
   # Assigning the design variables
@@ -24,7 +24,7 @@ def objective_function_1(parameters, design_variables):
   w2 = design_variables[11]
   # Assigning the parameters
   omega = parameters[0]
-  m3 = 100
+  m3 = 625
 
   # Evaluating the important expressions
   exp7 = complex(k1 + k2 + k4 + k5 - m3*omega, omega*(c1 + c2 + c4 + c5))
@@ -35,7 +35,59 @@ def objective_function_1(parameters, design_variables):
   exp2 = complex(k1*w2*w2 + k2*w2*w2 + k4*w1*w1 + k5*w1*w1 - (m3*omega*omega*w1*w1 -w1*w2 + w2*w2)/3, omega*(c1*w2*w2 + c2*w2*w2 + c4*w1*w1 + c5*w1*w1)) - (exp5*exp5/exp7) - (exp3*exp3)/exp4
   exp1 = complex(0,-(1/omega)*(k1*w2 + k2*w2 - k4*w1 - k5*w1) + (exp3/exp4)*(k1*b1 - k2*b2 + k4*b1 - k5*b2 - (exp6/(exp7*omega))*(k1 + k2 + k4 + k5)) + (exp5/(exp7*omega))*(k1 + k2 + k4 + k5))
   exp0 = -(1/exp7)*(complex(0, (1/omega)*(k1 + k2 + k4 + k5)) - (exp6/exp4)*(complex(0, (1/omega)*(k1*b1 - k2*b2 + k4*b1 - k5*b2)) + (exp1*exp3)/exp2 - (exp6/(omega*exp7))*complex(0, (k1 + k2 + k4 + k5))) + (exp1*exp5)/exp2)
-  return abs(exp0)
+  
+  # Calculating the penalties
+  penalties = [0 for _ in range(12)]
+  if (k1 > bounds[0][1]):
+    penalties[0] = 1e4*((k1 - bounds[0][1])**2)
+  if (k1 < bounds[0][0]):
+    penalties[0] = 1e4*((bounds[0][0] - k1)**2)
+  if (k2 > bounds[1][1]):
+    penalties[1] = 1e4*((k2 - bounds[1][1])**2)
+  if (k2 < bounds[1][0]):
+    penalties[1] = 1e4*((bounds[1][0] - k2)**2)
+  if (k4 > bounds[2][1]):
+    penalties[2] = 1e4*((k4 - bounds[2][1])**2)
+  if (k4 < bounds[2][0]):
+    penalties[2] = 1e4*((bounds[2][0] - k4)**2)
+  if (k5 > bounds[3][1]):
+    penalties[3] = 1e4*((k5 - bounds[3][1])**2)
+  if (k5 < bounds[3][0]):
+    penalties[3] = 1e4*((bounds[3][0] - k5)**2)
+  if (c1 > bounds[4][1]):
+    penalties[4] = 1e4*((c1 - bounds[4][1])**2)
+  if (c1 < bounds[4][0]):
+    penalties[4] = 1e4*((bounds[4][0] - c1)**2)
+  if (c2 > bounds[5][1]):
+    penalties[5] = 1e4*((c2 - bounds[5][1])**2)
+  if (c2 < bounds[5][0]):
+    penalties[5] = 1e4*((bounds[5][0] - c2)**2)
+  if (c4 > bounds[6][1]):
+    penalties[6] = 1e4*((c4 - bounds[6][1])**2)
+  if (c4 < bounds[6][0]):
+    penalties[6] = 1e4*((bounds[6][0] - c4)**2)
+  if (c5 > bounds[7][1]):
+    penalties[7] = 1e4*((c5 - bounds[7][1])**2)
+  if (c5 < bounds[7][0]):
+    penalties[7] = 1e4*((bounds[7][0] - c5)**2)
+  if (b1 > bounds[8][1]):
+    penalties[8] = 1e4*((b1 - bounds[8][1])**2)
+  if (b1 < bounds[8][0]):
+    penalties[8] = 1e4*((bounds[8][0] - b1)**2)
+  if (b2 > bounds[9][1]):
+    penalties[9] = 1e4*((b2 - bounds[9][1])**2)
+  if (b2 < bounds[9][0]):
+    penalties[9] = 1e4*((bounds[9][0] - b2)**2)
+  if (w1 > bounds[10][1]):
+    penalties[10] = 1e4*((w1 - bounds[10][1])**2)
+  if (w1 < bounds[10][0]):
+    penalties[10] = 1e4*((bounds[10][0] - w1)**2)
+  if (w2 > bounds[11][1]):
+    penalties[11] = 1e4*((w2 - bounds[11][1])**2)
+  if (w2 < bounds[11][0]):
+    penalties[11] = 1e4*((bounds[11][0] - w2)**2)
+
+  return abs(exp0) + sum(penalties)
 
 # Function to evaluate the objective function and return the value for given values of parameters and design variables
 def objective_function_2(parameters, design_variables):
@@ -43,7 +95,7 @@ def objective_function_2(parameters, design_variables):
   # parameters = [k1,k2,k4,k5,c1,c2,c4,c5,b1,b2,w1,w2]
   # Assigning the design variables
   omega = design_variables[0]
-  m3 = 100
+  m3 = 625
 
   # Assigning the parameters
   k1 = parameters[0]
@@ -68,4 +120,12 @@ def objective_function_2(parameters, design_variables):
   exp2 = complex(k1*w2*w2 + k2*w2*w2 + k4*w1*w1 + k5*w1*w1 - (m3*omega*omega*w1*w1 -w1*w2 + w2*w2)/3, omega*(c1*w2*w2 + c2*w2*w2 + c4*w1*w1 + c5*w1*w1)) - (exp5*exp5/exp7) - (exp3*exp3)/exp4
   exp1 = complex(0,-(1/omega)*(k1*w2 + k2*w2 - k4*w1 - k5*w1) + (exp3/exp4)*(k1*b1 - k2*b2 + k4*b1 - k5*b2 - (exp6/(exp7*omega))*(k1 + k2 + k4 + k5)) + (exp5/(exp7*omega))*(k1 + k2 + k4 + k5))
   exp0 = -(1/exp7)*(complex(0, (1/omega)*(k1 + k2 + k4 + k5)) - (exp6/exp4)*(complex(0, (1/omega)*(k1*b1 - k2*b2 + k4*b1 - k5*b2)) + (exp1*exp3)/exp2 - (exp6/(omega*exp7))*complex(0, (k1 + k2 + k4 + k5))) + (exp1*exp5)/exp2)
-  return abs(exp0)
+  
+  # Calculating the penalty
+  penalty = 0
+  if omega > 10:
+    penalty = 1e4*((omega - 10)**2)
+  if omega < -10:
+    penalty = 1e4*((-10 - omega)**2)
+  
+  return abs(exp0) - penalty

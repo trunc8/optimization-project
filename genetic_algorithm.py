@@ -7,14 +7,14 @@ import timeit
 from objective_function import objective_function_1, objective_function_2
 
 # Function to calculate the fitness value of each solution in the current population
-def fitness_function_1(parameters, design_variables, type = 'max'):
+def fitness_function_1(parameters, design_variables, bounds, type = 'max'):
   fitness_value = np.zeros(design_variables.shape)
   if type == 'max':
     for i in range(len(design_variables)):
-      fitness_value[i] = objective_function_1(parameters, design_variables[i])
+      fitness_value[i] = objective_function_1(parameters, design_variables[i], bounds)
   else:
     for i in range(len(design_variables)):
-      fitness_value[i] = -objective_function_1(parameters, design_variables[i])
+      fitness_value[i] = -objective_function_1(parameters, design_variables[i], bounds)
   return fitness_value
 
 # Function to calculate the fitness value of each solution in the current population
@@ -60,6 +60,8 @@ def mutation_function(offspring):
 
 def runGeneticAlgorithm():
   T = 10 # Number of iterations
+  # Bounds constraint for each design variable
+  bounds = [[20120,30180], [20120,30180], [20120,30180], [20120,30180], [640,960], [640,960], [640,960], [640,960], [1,10], [1,10], [1,10], [1,10]]
   params = [10]  # Initialising the parameters to the objective function
   np.random.seed(0)
   best_values = np.zeros(13)
@@ -73,7 +75,7 @@ def runGeneticAlgorithm():
     curr_population = np.random.uniform(-100.0, 100.0, population_size) # Initializing the current population
     number_of_generations = 10000 # Number of generations
     for gen in range(number_of_generations):
-      fitness = fitness_function_1(params, curr_population, 'min')
+      fitness = fitness_function_1(params, curr_population, bounds, 'min')
       parents = selection_function(fitness, number_of_mating_parents, curr_population)
       offspring_crossover = crossover_function(parents, (population_size[0] - parents.shape[0], number_of_design_variables))
       offspring_mutation = mutation_function(offspring_crossover)
@@ -82,7 +84,7 @@ def runGeneticAlgorithm():
       # if (gen % 500) == 0:
       #   print("Best result after generation {}: {}".format(gen, np.max(fitness)))
     # print('\n')
-    fitness = fitness_function_1(params, curr_population, 'min')
+    fitness = fitness_function_1(params, curr_population, bounds, 'min')
     best_fitness_value_index = np.where(fitness == np.max(fitness))
     best_fitness_value_index = best_fitness_value_index[0][0]
     # print("Best solution : {}".format(-1*curr_population[best_fitness_value_index, :]))
@@ -112,33 +114,33 @@ def runGeneticAlgorithm():
     # print("Best solution fitness : {}".format(fitness[best_fitness_value_index]))
     best_values[12:] = -1*curr_population[best_fitness_value_index, :]
     params = curr_population[best_fitness_value_index, :]
-    print("Optimal value of k1 after iteration {} = {} \n".format(t+1, best_values[0]))
-    print("Optimal value of k2 after iteration {} = {} \n".format(t+1, best_values[1]))
-    print("Optimal value of k4 after iteration {} = {} \n".format(t+1, best_values[2]))
-    print("Optimal value of k5 after iteration {} = {} \n".format(t+1, best_values[3]))
-    print("Optimal value of c1 after iteration {} = {} \n".format(t+1, best_values[4]))
-    print("Optimal value of c2 after iteration {} = {} \n".format(t+1, best_values[5]))
-    print("Optimal value of c4 after iteration {} = {} \n".format(t+1, best_values[6]))
-    print("Optimal value of c5 after iteration {} = {} \n".format(t+1, best_values[7]))
-    print("Optimal value of b1 after iteration {} = {} \n".format(t+1, best_values[8]))
-    print("Optimal value of b2 after iteration {} = {} \n".format(t+1, best_values[9]))
-    print("Optimal value of w1 after iteration {} = {} \n".format(t+1, best_values[10]))
-    print("Optimal value of w2 after iteration {} = {} \n".format(t+1, best_values[11]))
+    print("Optimal value of k1 after iteration {} = {} \n".format(t+1, -best_values[0]))
+    print("Optimal value of k2 after iteration {} = {} \n".format(t+1, -best_values[1]))
+    print("Optimal value of k4 after iteration {} = {} \n".format(t+1, -best_values[2]))
+    print("Optimal value of k5 after iteration {} = {} \n".format(t+1, -best_values[3]))
+    print("Optimal value of c1 after iteration {} = {} \n".format(t+1, -best_values[4]))
+    print("Optimal value of c2 after iteration {} = {} \n".format(t+1, -best_values[5]))
+    print("Optimal value of c4 after iteration {} = {} \n".format(t+1, -best_values[6]))
+    print("Optimal value of c5 after iteration {} = {} \n".format(t+1, -best_values[7]))
+    print("Optimal value of b1 after iteration {} = {} \n".format(t+1, -best_values[8]))
+    print("Optimal value of b2 after iteration {} = {} \n".format(t+1, -best_values[9]))
+    print("Optimal value of w1 after iteration {} = {} \n".format(t+1, -best_values[10]))
+    print("Optimal value of w2 after iteration {} = {} \n".format(t+1, -best_values[11]))
     print('\n -------------- End of Iteration {} -------------- \n \n \n'.format(t+1))
   print('\n \n')
   print("\n -------------- Results -------------- \n")
-  print("Optimal value of k1 = {} \n".format(best_values[0]))
-  print("Optimal value of k2 = {} \n".format(best_values[1]))
-  print("Optimal value of k4 = {} \n".format(best_values[2]))
-  print("Optimal value of k5 = {} \n".format(best_values[3]))
-  print("Optimal value of c1 = {} \n".format(best_values[4]))
-  print("Optimal value of c2 = {} \n".format(best_values[5]))
-  print("Optimal value of c4 = {} \n".format(best_values[6]))
-  print("Optimal value of c5 = {} \n".format(best_values[7]))
-  print("Optimal value of b1 = {} \n".format(best_values[8]))
-  print("Optimal value of b2 = {} \n".format(best_values[9]))
-  print("Optimal value of w1 = {} \n".format(best_values[10]))
-  print("Optimal value of w2 = {} \n".format(best_values[11]))
+  print("Optimal value of k1 = {} \n".format(-best_values[0]))
+  print("Optimal value of k2 = {} \n".format(-best_values[1]))
+  print("Optimal value of k4 = {} \n".format(-best_values[2]))
+  print("Optimal value of k5 = {} \n".format(-best_values[3]))
+  print("Optimal value of c1 = {} \n".format(-best_values[4]))
+  print("Optimal value of c2 = {} \n".format(-best_values[5]))
+  print("Optimal value of c4 = {} \n".format(-best_values[6]))
+  print("Optimal value of c5 = {} \n".format(-best_values[7]))
+  print("Optimal value of b1 = {} \n".format(-best_values[8]))
+  print("Optimal value of b2 = {} \n".format(-best_values[9]))
+  print("Optimal value of w1 = {} \n".format(-best_values[10]))
+  print("Optimal value of w2 = {} \n".format(-best_values[11]))
   print("Optimal value of omega = {} \n".format(best_values[12]))
 
 
@@ -153,4 +155,4 @@ if __name__ == '__main__':
 
   stop = timeit.default_timer()
 
-  print(f'Time taken: {stop - start:.3f}s') 
+  print(f'Time taken: {stop - start:.3f}s')
