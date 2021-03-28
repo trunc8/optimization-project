@@ -1,6 +1,16 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+# In[31]:
+
+
 import math
 import random
 import time
+
+
+# In[32]:
+
 
 #Particle helper class
 class Particle:
@@ -49,12 +59,19 @@ class Particle:
             if self.pos[i] > bounds[i][1]:
                 self.pos[i] = bounds[i][1]
 
+
+# In[33]:
+
+
 #Optimiser
-def Particle_swarm(J,x0,bounds,num_particles,maxiter):
+def Particle_swarm(J,numdesign,bounds,num_particles,maxiter):
     fval_best_g = math.inf  #best fval for group
     pos_best_g = None  #best position for group
 
-    swarm=[Particle(x0) for i in range(num_particles)]  #initialize
+    swarm=[]  #initialize
+    for i in range(num_particles):
+        x = [random.random() for i in range(numdesign)]
+        swarm.append(Particle(x))
 
     for i in range(maxiter):  #iterate
         for j in range(num_particles):
@@ -74,20 +91,36 @@ def Particle_swarm(J,x0,bounds,num_particles,maxiter):
     
     #return fval_best_g
 
+
+# In[34]:
+
+
 #Objective function
 def function(x):
     f = 0
-    for i in range(len(x)):
-        f += x[i]**2 + (x[i]-3)**2
+    # for i in range(len(x)):
+    #     f += x[i]**2 + (x[i]-3)**2
+    f = (x[0]**2+x[1]-11)**2 + (x[0]+x[1]**2-7)**2
     return f
 
 
-x0 = [35,15,14,-24,13,35,15,14,-24,13]  #starting point
-bounds = [(-100,100),(-100,100),(-100,100),(-100,100),(-100,100),(-100,100),(-100,100),(-100,100),(-100,100),(-100,100)]  #bounds
+# In[35]:
+
+
+#x0 = [99,87,14,-24,13,35,15,14,-24,13]  #starting point
+bounds = [(-100,100),(-100,100)]  #bounds
+numdesign = 2
 
 start = time.time()
-Particle_swarm(function, x0, bounds, 25, 30000)  #run optimiser
+for _ in range(100):
+Particle_swarm(function, numdesign, bounds, 25, 30000)  #run optimiser
 end = time.time()
 
 print(end-start)  #get eval time
+
+
+# In[ ]:
+
+
+
 
