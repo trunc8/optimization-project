@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[31]:
+# In[25]:
 
 
 import math
@@ -9,7 +9,7 @@ import random
 import time
 
 
-# In[32]:
+# In[26]:
 
 
 #Particle helper class
@@ -37,8 +37,8 @@ class Particle:
 
     #update current velocity
     def update_velocity(self, pos_best_g):
-        w = 0.5  #inertia for current velocity
-        c1 = 1 #1.2 - 0.2 * self.iters/maxiter  #cognative constant - factor for personal decision
+        w = 0.7  #inertia for current velocity
+        c1 = 2 #1.2 - 0.2 * self.iters/maxiter  #cognative constant - factor for personal decision
         c2 = 2 #1.8 + 0.2 * self.iters/maxiter  #social constant - factor for herd decision
 
         for i in range(self.n):
@@ -60,7 +60,7 @@ class Particle:
                 self.pos[i] = bounds[i][1]
 
 
-# In[33]:
+# In[27]:
 
 
 #Optimiser
@@ -70,7 +70,7 @@ def Particle_swarm(J,numdesign,bounds,num_particles,maxiter):
 
     swarm=[]  #initialize
     for i in range(num_particles):
-        x = [random.random() for i in range(numdesign)]
+        x = [(bounds[i][0] + (bounds[i][1] - bounds[i][0])*random.random()) for i in range(numdesign)]
         swarm.append(Particle(x))
 
     for i in range(maxiter):  #iterate
@@ -92,28 +92,61 @@ def Particle_swarm(J,numdesign,bounds,num_particles,maxiter):
     #return fval_best_g
 
 
-# In[34]:
+# In[28]:
 
 
 #Objective function
-def function(x):
+def function1(x):
     f = 0
-    # for i in range(len(x)):
-    #     f += x[i]**2 + (x[i]-3)**2
-    f = (x[0]**2+x[1]-11)**2 + (x[0]+x[1]**2-7)**2
+    for i in range(len(x)):
+        f += x[i]**2 + (x[i]-3)**2
+    return f
+
+def function2(x): #local min around -22, global min around 29
+    f = 0
+    for i in range(len(x)):
+        f += (x[i]-40)*(x[i]-10)*(x[i]+10)*(x[i]+30)
     return f
 
 
-# In[35]:
+# In[29]:
 
 
 #x0 = [99,87,14,-24,13,35,15,14,-24,13]  #starting point
-bounds = [(-100,100),(-100,100)]  #bounds
-numdesign = 2
+bounds = [(-100,100),(-100,100),(-100,100),(-100,100),(-100,100),(-100,100),(-100,100),(-100,100),(-100,100),(-100,100)]  #bounds
+numdesign = 10
 
 start = time.time()
-for _ in range(100):
-Particle_swarm(function, numdesign, bounds, 25, 30000)  #run optimiser
+Particle_swarm(function1, numdesign, bounds, 25, 30000)  #run optimiser
+end = time.time()
+
+print(end-start)  #get eval time
+
+start = time.time()
+Particle_swarm(function2, numdesign, bounds, 25, 30000)  #run optimiser
+end = time.time()
+
+print(end-start)  #get eval time
+
+
+# In[30]:
+
+
+from pyswarm import pso
+
+
+# In[31]:
+
+
+lb = [-100 for i in range(10)]
+ub = [100 for i in range(10)]
+
+start = time.time()
+xopt, fopt = pso(function2, lb, ub, swarmsize = 25, omega = 0.7, phip=2, phig=2, maxiter=30000, minfunc=0, minstep=0)
+
+print("optimal point:", xopt)  #print best position
+print("optimal function value:", fopt)  #print objective function value at best position
+
 end = time.time()
 
 print(end-start)  #get eval time
