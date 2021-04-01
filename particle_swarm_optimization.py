@@ -8,6 +8,7 @@ import math
 import random
 import time
 
+from test_objectives import function1, function2, himmelblau, banana
 
 # In[26]:
 
@@ -86,7 +87,7 @@ def Particle_swarm(J,numdesign,bounds,num_particles,maxiter):
             swarm[j].update_velocity(pos_best_g)
             swarm[j].update_position(bounds)
 
-    print("optimal point:", pos_best_g)  #print best position
+    print("optimal point:", [round(i,3) for i in pos_best_g])  #print best position
     print("optimal function value:", fval_best_g)  #print objective function value at best position
     
     #return fval_best_g
@@ -95,38 +96,29 @@ def Particle_swarm(J,numdesign,bounds,num_particles,maxiter):
 # In[28]:
 
 
-#Objective function
-def function1(x):
-    f = 0
-    for i in range(len(x)):
-        f += x[i]**2 + (x[i]-3)**2
-    return f
 
-def function2(x): #local min around -22, global min around 29
-    f = 0
-    for i in range(len(x)):
-        f += (x[i]-40)*(x[i]-10)*(x[i]+10)*(x[i]+30)
-    return f
 
 
 # In[29]:
 
+print("Starting tests...\n")
 
 #x0 = [99,87,14,-24,13,35,15,14,-24,13]  #starting point
-bounds = [(-100,100),(-100,100),(-100,100),(-100,100),(-100,100),(-100,100),(-100,100),(-100,100),(-100,100),(-100,100)]  #bounds
+# bounds = [(-100,100),(-100,100),(-100,100),(-100,100),(-100,100),(-100,100),(-100,100),(-100,100),(-100,100),(-100,100)]  #bounds
 numdesign = 10
+bounds = [(-100,100) for _ in range(numdesign)]
 
-start = time.time()
-Particle_swarm(function1, numdesign, bounds, 25, 30000)  #run optimiser
-end = time.time()
+# start = time.time()
+# Particle_swarm(function1, numdesign, bounds, 25, 30000)  #run optimiser
+# end = time.time()
 
-print(end-start)  #get eval time
+# print(end-start)  #get eval time
 
 start = time.time()
 Particle_swarm(function2, numdesign, bounds, 25, 30000)  #run optimiser
 end = time.time()
 
-print(end-start)  #get eval time
+print(f"Time taken: {round(end-start, 2)}s\n\n")  #get eval time
 
 
 # In[30]:
@@ -138,18 +130,19 @@ from pyswarm import pso
 # In[31]:
 
 
-lb = [-100 for i in range(10)]
-ub = [100 for i in range(10)]
+lb = [-100 for i in range(numdesign)]
+ub = [100 for i in range(numdesign)]
 
 start = time.time()
-xopt, fopt = pso(function2, lb, ub, swarmsize = 25, omega = 0.7, phip=2, phig=2, maxiter=30000, minfunc=0, minstep=0)
+# xopt, fopt = pso(function2, lb, ub, swarmsize = 25, omega = 0.7, phip=2, phig=2, maxiter=30000, minfunc=0, minstep=0)
+xopt, fopt = pso(function2, lb, ub, swarmsize = 25, maxiter=30000)
 
-print("optimal point:", xopt)  #print best position
+print("optimal point:", [round(i,3) for i in xopt])  #print best position
 print("optimal function value:", fopt)  #print objective function value at best position
 
 end = time.time()
 
-print(end-start)  #get eval time
+print(f"Time taken: {round(end-start, 2)}s\n\n")  #get eval time
 
 
 # In[ ]:
