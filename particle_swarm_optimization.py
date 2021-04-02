@@ -134,8 +134,8 @@ lb = [-100 for i in range(numdesign)]
 ub = [100 for i in range(numdesign)]
 
 start = time.time()
-# xopt, fopt = pso(function2, lb, ub, swarmsize = 25, omega = 0.7, phip=2, phig=2, maxiter=30000, minfunc=0, minstep=0)
-xopt, fopt = pso(function2, lb, ub, swarmsize = 25, maxiter=30000)
+xopt, fopt = pso(function2, lb, ub, swarmsize = 25, omega = 0.7, phip=2, phig=2, maxiter=30000, minfunc=0, minstep=0)
+# xopt, fopt = pso(function2, lb, ub, swarmsize = 25, maxiter=30000)
 
 print("optimal point:", [round(i,3) for i in xopt])  #print best position
 print("optimal function value:", fopt)  #print objective function value at best position
