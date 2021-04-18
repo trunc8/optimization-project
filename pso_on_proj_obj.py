@@ -1,8 +1,14 @@
 #!/usr/bin/env python
+# coding: utf-8
+
+#!/usr/bin/env python
 import cmath as cm
 import numpy as np
-from scipy.optimize import differential_evolution
+# from scipy.optimize import differential_evolution
 import timeit
+import random
+
+from particle_swarm_optimization import Particle_swarm
 
 from objective_function import objective_function_1, objective_function_2
 
@@ -13,16 +19,18 @@ def evalObjective1(design_variables):
   # design variables = [k1,k2,k4,k5,c1,c2,c4,c5,b1,b2,w1,w2]
   # parameters1 = [omega]
   global parameters1, bounds1
+  # print('Design space', end=' ')
   return -objective_function_1(parameters1, design_variables, bounds1)
 
 def evalObjective2(design_variables):
   # design variables = [omega]
   # parameters2 = [k1,k2,k4,k5,c1,c2,c4,c5,b1,b2,w1,w2]
   global parameters2
+  # print('Frequency space', end=' ')
   return objective_function_2(parameters2, design_variables)
 
 
-def benchmarkGeneticAlgorithm():
+def benchmarkPSOAlgorithm():
   global parameters1, parameters2, bounds1
   T = 20 # Number of iterations
 
@@ -51,15 +59,27 @@ def benchmarkGeneticAlgorithm():
 
   for t in range(T):
     print('------------- Start of Iteration {} ------------- \n'.format(t+1))
+
     # Minimization over the 12 design variables relating to the car's build
-    result = differential_evolution(evalObjective1, bounds1, seed=0)
-    parameters2 = result.x
+    numdesign = 12
+    xopt, fopt = Particle_swarm(evalObjective1, numdesign, bounds1, 25, 30000)
+    parameters2 = xopt
     best_values[:12] = parameters2
 
-    # Maximization over frequency space using the output of previous minimization as parameters
-    result = differential_evolution(evalObjective2, bounds2, seed=0)
-    parameters1 = result.x
-    best_values[12] = parameters1
+    # result = differential_evolution(evalObjective1, bounds1, seed=0)
+    # parameters2 = result.x
+    # best_values[:12] = parameters2
+
+    
+
+    # Maximization over frequency space using the output of previous minimization as parameters 
+    numdesign = 1   
+    xopt, fopt = Particle_swarm(evalObjective2, numdesign, bounds2, 25, 30000)
+    parameters1 = xopt
+    best_values[12] = parameters1[0]
+    # result = differential_evolution(evalObjective2, bounds2, seed=0)
+    # parameters1 = result.x
+    # best_values[12] = parameters1
 
     print("Optimal value of k1 after iteration {} = {} \n".format(t+1, best_values[0]))
     print("Optimal value of k2 after iteration {} = {} \n".format(t+1, best_values[1]))
@@ -92,14 +112,17 @@ def benchmarkGeneticAlgorithm():
 
 if __name__ == '__main__':
   print("\nThis script will benchmark our optimization objective against",
-    "scipy's genetic algorithm\n")
+    "pyswarm's Particle Swarm Optimization algorithm\n")
   print("Starting timer...\n")
 
   start = timeit.default_timer()
 
-  benchmarkGeneticAlgorithm()
+  random.seed(0)
+  benchmarkPSOAlgorithm()
 
   stop = timeit.default_timer()
 
   print(f'Time taken: {stop - start:.3f}s') 
-  
+
+
+

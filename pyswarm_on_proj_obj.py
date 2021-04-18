@@ -1,8 +1,13 @@
 #!/usr/bin/env python
+# coding: utf-8
+
+#!/usr/bin/env python
 import cmath as cm
 import numpy as np
-from scipy.optimize import differential_evolution
+# from scipy.optimize import differential_evolution
 import timeit
+
+from pyswarm import pso
 
 from objective_function import objective_function_1, objective_function_2
 
@@ -22,7 +27,7 @@ def evalObjective2(design_variables):
   return objective_function_2(parameters2, design_variables)
 
 
-def benchmarkGeneticAlgorithm():
+def benchmarkPSOAlgorithm():
   global parameters1, parameters2, bounds1
   T = 20 # Number of iterations
 
@@ -51,15 +56,29 @@ def benchmarkGeneticAlgorithm():
 
   for t in range(T):
     print('------------- Start of Iteration {} ------------- \n'.format(t+1))
+
     # Minimization over the 12 design variables relating to the car's build
-    result = differential_evolution(evalObjective1, bounds1, seed=0)
-    parameters2 = result.x
+    lb = [bound[0] for bound in bounds1]
+    ub = [bound[1] for bound in bounds1]
+    xopt, fopt = pso(evalObjective1, lb, ub, swarmsize = 25, omega = 0.7, phip=2, phig=2, maxiter=30000)
+    parameters2 = xopt
     best_values[:12] = parameters2
 
-    # Maximization over frequency space using the output of previous minimization as parameters
-    result = differential_evolution(evalObjective2, bounds2, seed=0)
-    parameters1 = result.x
+    # result = differential_evolution(evalObjective1, bounds1, seed=0)
+    # parameters2 = result.x
+    # best_values[:12] = parameters2
+
+    
+
+    # Maximization over frequency space using the output of previous minimization as parameters    
+    lb = [bound[0] for bound in bounds2]
+    ub = [bound[1] for bound in bounds2]
+    xopt, fopt = pso(evalObjective2, lb, ub, swarmsize = 25, omega = 0.7, phip=2, phig=2, maxiter=30000, minfunc=0, minstep=0)
+    parameters1 = xopt
     best_values[12] = parameters1
+    # result = differential_evolution(evalObjective2, bounds2, seed=0)
+    # parameters1 = result.x
+    # best_values[12] = parameters1
 
     print("Optimal value of k1 after iteration {} = {} \n".format(t+1, best_values[0]))
     print("Optimal value of k2 after iteration {} = {} \n".format(t+1, best_values[1]))
@@ -92,14 +111,16 @@ def benchmarkGeneticAlgorithm():
 
 if __name__ == '__main__':
   print("\nThis script will benchmark our optimization objective against",
-    "scipy's genetic algorithm\n")
+    "pyswarm's Particle Swarm Optimization algorithm\n")
   print("Starting timer...\n")
 
   start = timeit.default_timer()
 
-  benchmarkGeneticAlgorithm()
+  benchmarkPSOAlgorithm()
 
   stop = timeit.default_timer()
 
   print(f'Time taken: {stop - start:.3f}s') 
-  
+
+
+

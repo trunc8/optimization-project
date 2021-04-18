@@ -40,6 +40,8 @@ def simulated_annealing(objective, bounds, n_iterations, step_size, initial_temp
         for j in range(iterations_per_temp):
             #select a new point from neighborhood---
             neighbor=solution + randn(len(bounds)) * step_size
+            for i in range(len(bounds)):
+                neighbor[i] = max(bounds[i][0], min(bounds[i][1],neighbor[i]))
             previous_cost=objective(solution)
             current_cost=objective(neighbor)
             
