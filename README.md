@@ -6,4 +6,5 @@ Course project for AE755 [Optimization in Engineering]
 ```
 python3 GA_benchmark.py
 python3 genetic_algorithm.py
+python3 SA_final.py
 ```
