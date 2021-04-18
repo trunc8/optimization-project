@@ -4,7 +4,7 @@ import numpy as np
 from scipy.optimize import differential_evolution
 import timeit
 
-from objective_function import objective_function_3, objective_function_2
+from objective_function import objective_function_1, objective_function_2
 
 parameters1, parameters2 = [], []
 bounds1 = []
@@ -13,7 +13,7 @@ def evalObjective1(design_variables):
   # design variables = [k1,k2,k4,k5,c1,c2,c4,c5,b1,b2,w1,w2]
   # parameters1 = [omega]
   global parameters1
-  return -objective_function_3(parameters1, design_variables)
+  return -objective_function_1(parameters1, design_variables)
 
 def evalObjective2(design_variables):
   # design variables = [omega]
@@ -27,6 +27,7 @@ def benchmarkGeneticAlgorithm():
   T = 20 # Number of iterations
 
   # Setting bounds for the design variables as required by scipy
+  # l1= [[20121,30180],[20121,30180],[20121,30180],[20121,30180],[640,960],[640,960],[640,960],[640,960],[0,100],[0,100],[0,100],[0,100]]
   l1 = [[20121,30180]]*4
   l2 = [[640,960]]*4
   l3 = [[0,100]]*2
