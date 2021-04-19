@@ -15,12 +15,12 @@ from objective_function import objective_function_1, objective_function_2
 # Import of optimization libraries and algorithms
 
 #### Genetic Algorithm
-# from genetic_algorithm import ??
+from genetic_algorithm import genetic_algorithm
 from scipy.optimize import differential_evolution
 
 #### Simulated Annealing
 from simulated_annealing import simulated_annealing
-from scipy.optimize import basinhopping # ??
+from scipy.optimize import dual_annealing
 
 #### Particle Swarm Optimization
 from particle_swarm_optimization import Particle_swarm
@@ -72,22 +72,31 @@ class Suspension_Optimizer:
     self.parameters1 = [10] # Initialize with value of omega
     self.parameters2 = [] # Empty list as we will feed value from first optimization
     
-
-    # for t in (tqdm(range(T)) if not self.verbose else range(T)):
+    # Don't plot the progress bar if verbose is on, it clutters the screen
+    # and does not make sense
     for t in tqdm(range(T), disable=self.verbose):
       if self.verbose:
         print('------------- Start of Iteration {} ------------- \n'.format(t+1))
       
       if self.algorithm == 'GA':
-        pass
+        # Minimization over the 12 design variables relating to the car's build
+        numdesign = 12
+        result = genetic_algorithm(self.evalObjective1, self.bounds1, numdesign)
+        self.parameters2 = result['x']
+        best_values[:12] = self.parameters2
+
+        # Maximization over frequency space using the output of previous minimization as parameters
+        numdesign = 1
+        result = genetic_algorithm(self.evalObjective2, self.bounds2, numdesign)
+        self.parameters1 = result['x']
+        best_values[12] = self.parameters1
+        obj_value = result['fun']
       
       elif self.algorithm == 'GA_benchmark':
-        # Minimization over the 12 design variables relating to the car's build
         result = differential_evolution(self.evalObjective1, self.bounds1, seed=0)
         self.parameters2 = result.x
         best_values[:12] = self.parameters2
 
-        # Maximization over frequency space using the output of previous minimization as parameters
         result = differential_evolution(self.evalObjective2, self.bounds2, seed=0)
         self.parameters1 = result.x
         best_values[12] = self.parameters1
@@ -98,18 +107,30 @@ class Suspension_Optimizer:
         step_size =0.1
         temp = 90
         
-        best, score, scores = simulated_annealing(self.evalObjective1, np.asarray(self.bounds1), n_iterations, step_size,temp,100,0.5)
+        best, score, scores = simulated_annealing(self.evalObjective1, np.asarray(self.bounds1), n_iterations, step_size, temp, 100, 0.5)
         self.parameters2 = best
         best_values[:12] = self.parameters2
         
         # Maximization over frequency space using the output of previous minimization as parameters
-        best, score, scores= simulated_annealing(self.evalObjective2, np.asarray(self.bounds2), n_iterations, step_size,temp,100,0.5)
+        best, score, scores= simulated_annealing(self.evalObjective2, np.asarray(self.bounds2), n_iterations, step_size, temp, 100, 0.5)
         self.parameters1 = best
         best_values[12] = self.parameters1
         obj_value = score
       
       elif self.algorithm == 'SA_benchmark':
-        pass
+        # result =dual_annealing(evalObjective1, bounds=list(zip(lb, ub)), seed=1234)
+        # parameters2 = result['x']
+        # best_values[:12] = parameters2
+
+
+        result = dual_annealing(self.evalObjective1, self.bounds1, seed=0)
+        self.parameters2 = result.x
+        best_values[:12] = self.parameters2
+
+        result = dual_annealing(self.evalObjective2, self.bounds2, seed=0)
+        self.parameters1 = result.x
+        best_values[12] = self.parameters1
+        obj_value = result.fun
       
       elif self.algorithm == 'PSO':
         numdesign = 12
@@ -158,6 +179,7 @@ class Suspension_Optimizer:
         print("Optimal value of b2 after iteration {} = {} \n".format(t+1, best_values[9]))
         print("Optimal value of w1 after iteration {} = {} \n".format(t+1, best_values[10]))
         print("Optimal value of w2 after iteration {} = {} \n".format(t+1, best_values[11]))
+        print("Objective value after iteration {} = {} \n".format(t+1, obj_value))
         print('\n -------------- End of Iteration {} -------------- \n \n \n'.format(t+1))
 
     with open(os.path.join(sys.path[0], f'../results/{self.algorithm}_design_variables.csv'), 'w') as file:
