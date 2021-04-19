@@ -7,4 +7,4 @@ ii)f(x,y)=(x+y-11)^2 +(x+y-7)^2
 
 Time taken for our objective function: 209 s
 
-
+Memory used : 90 MiB
