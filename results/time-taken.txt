@@ -1,0 +1,6 @@
+Time taken by GA: 96.579s
+Time taken by GA_benchmark: 10.603s
+Time taken by SA: 209s
+Time taken by SA_benchmark: 59.980s
+Time taken by PSO: 313.783s
+Time taken by PSO_benchmark: 879.916s

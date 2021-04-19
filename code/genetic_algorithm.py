@@ -1,9 +1,4 @@
-#!/usr/bin/env python
-
-import cmath as cm
 import numpy as np
-
-from objective_function import objective_function_1, objective_function_2
 
 # Function to calculate the fitness value of each solution in the current population
 def fitness_function(objective, design_variables):

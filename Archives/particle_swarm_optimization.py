@@ -1,7 +1,18 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+# In[25]:
+
+
 import math
 import random
 import time
 
+# from test_objectives import function1, function2, himmelblau, banana
+
+# In[26]:
+
+random.seed(0)
 #Particle helper class
 class Particle:
     def __init__(self,x0):
@@ -50,6 +61,9 @@ class Particle:
                 self.pos[i] = bounds[i][1]
 
 
+# In[27]:
+
+
 #Optimiser
 def Particle_swarm(J,numdesign,bounds,num_particles,maxiter):
     fval_best_g = math.inf  #best fval for group
@@ -79,3 +93,62 @@ def Particle_swarm(J,numdesign,bounds,num_particles,maxiter):
     # print("optimal function value:", fval_best_g)  #print objective function value at best position
     
     return xopt, fopt
+
+
+# In[28]:
+
+
+
+
+
+# In[29]:
+
+print("Starting tests...\n")
+
+#x0 = [99,87,14,-24,13,35,15,14,-24,13]  #starting point
+# bounds = [(-100,100),(-100,100),(-100,100),(-100,100),(-100,100),(-100,100),(-100,100),(-100,100),(-100,100),(-100,100)]  #bounds
+numdesign = 10
+bounds = [(-100,100) for _ in range(numdesign)]
+
+# start = time.time()
+# Particle_swarm(function1, numdesign, bounds, 25, 30000)  #run optimiser
+# end = time.time()
+
+# print(end-start)  #get eval time
+
+start = time.time()
+Particle_swarm(function2, numdesign, bounds, 25, 30000)  #run optimiser
+end = time.time()
+
+print(f"Time taken: {round(end-start, 2)}s\n\n")  #get eval time
+
+
+# In[30]:
+
+
+from pyswarm import pso
+
+
+# In[31]:
+
+
+lb = [-100 for i in range(numdesign)]
+ub = [100 for i in range(numdesign)]
+
+start = time.time()
+xopt, fopt = pso(function2, lb, ub, swarmsize = 25, omega = 0.7, phip=2, phig=2, maxiter=30000, minfunc=0, minstep=0)
+# xopt, fopt = pso(function2, lb, ub, swarmsize = 25, maxiter=30000)
+
+print("optimal point:", [round(i,3) for i in xopt])  #print best position
+print("optimal function value:", fopt)  #print objective function value at best position
+
+end = time.time()
+
+print(f"Time taken: {round(end-start, 2)}s\n\n")  #get eval time
+
+
+# In[ ]:
+
+
+
+

@@ -1,14 +1,5 @@
-import cmath as cm
-import numpy as np
-import timeit
-
-from objective_function import objective_function_1, objective_function_2
-
-from numpy import asarray
 from numpy import exp
-from numpy.random import randn
-from numpy.random import rand
-from numpy.random import seed
+from numpy.random import rand, randn
 
 
 def simulated_annealing(objective, bounds, n_iterations, step_size, initial_temp,nrep,alpha):
