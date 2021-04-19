@@ -133,12 +133,12 @@ def run_SA():
     print("Optimal value of omega = {} \n".format(best_values[12]))
 
 
-print("Starting timer...\n")
+# print("Starting timer...\n")
 
-start = timeit.default_timer()
+# start = timeit.default_timer()
 
-run_SA()
+# run_SA()
 
-stop = timeit.default_timer()
+# stop = timeit.default_timer()
 
-print(f'Time taken: {stop - start:.3f}s')
+# print(f'Time taken: {stop - start:.3f}s')

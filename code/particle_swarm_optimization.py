@@ -89,8 +89,8 @@ def Particle_swarm(J,numdesign,bounds,num_particles,maxiter):
 
     xopt = pos_best_g
     fopt = fval_best_g
-    print("optimal point:", [round(i,3) for i in pos_best_g])  #print best position
-    print("optimal function value:", fval_best_g)  #print objective function value at best position
+    # print("optimal point:", [round(i,3) for i in pos_best_g])  #print best position
+    # print("optimal function value:", fval_best_g)  #print objective function value at best position
     
     return xopt, fopt
 

@@ -36,10 +36,12 @@ def objective_function_1(parameters, design_variables, bounds):
     exp2 = complex(k1*w2*w2 + k2*w2*w2 + k4*w1*w1 + k5*w1*w1 - (m3*omega*omega*w1*w1 -w1*w2 + w2*w2)/3, omega*(c1*w2*w2 + c2*w2*w2 + c4*w1*w1 + c5*w1*w1)) - (exp5*exp5/exp7) - (exp3*exp3)/exp4
     exp1 = complex(0,-(1/omega)*(k1*w2 + k2*w2 - k4*w1 - k5*w1) + (exp3/exp4)*(k1*b1 - k2*b2 + k4*b1 - k5*b2 - (exp6/(exp7*omega))*(k1 + k2 + k4 + k5)) + (exp5/(exp7*omega))*(k1 + k2 + k4 + k5))
     exp0 = -(1/exp7)*(complex(0, (1/omega)*(k1 + k2 + k4 + k5)) - (exp6/exp4)*(complex(0, (1/omega)*(k1*b1 - k2*b2 + k4*b1 - k5*b2)) + (exp1*exp3)/exp2 - (exp6/(omega*exp7))*complex(0, (k1 + k2 + k4 + k5))) + (exp1*exp5)/exp2)
-    # print('Not exception')
-  except:
-    # print('Exception')
-    return 1e4
+  except ZeroDivisionError as error:
+    # Penalize ZeroDivisionErrors.
+    return 1e6
+  except Exception as exception:
+    # Output unexpected Exceptions.
+    print(f"Exception occurred: {exception}")
 
   # Calculating the penalties
   penalties = [0 for _ in range(12)]
@@ -126,10 +128,12 @@ def objective_function_2(parameters, design_variables):
     exp2 = complex(k1*w2*w2 + k2*w2*w2 + k4*w1*w1 + k5*w1*w1 - (m3*omega*omega*w1*w1 -w1*w2 + w2*w2)/3, omega*(c1*w2*w2 + c2*w2*w2 + c4*w1*w1 + c5*w1*w1)) - (exp5*exp5/exp7) - (exp3*exp3)/exp4
     exp1 = complex(0,-(1/omega)*(k1*w2 + k2*w2 - k4*w1 - k5*w1) + (exp3/exp4)*(k1*b1 - k2*b2 + k4*b1 - k5*b2 - (exp6/(exp7*omega))*(k1 + k2 + k4 + k5)) + (exp5/(exp7*omega))*(k1 + k2 + k4 + k5))
     exp0 = -(1/exp7)*(complex(0, (1/omega)*(k1 + k2 + k4 + k5)) - (exp6/exp4)*(complex(0, (1/omega)*(k1*b1 - k2*b2 + k4*b1 - k5*b2)) + (exp1*exp3)/exp2 - (exp6/(omega*exp7))*complex(0, (k1 + k2 + k4 + k5))) + (exp1*exp5)/exp2)
-    # print('Not exception')
-  except:
-    # print('Exception')
-    return 1e4
+  except ZeroDivisionError as error:
+    # Penalize ZeroDivisionErrors.
+    return 1e6
+  except Exception as exception:
+    # Output unexpected Exceptions.
+    print(f"Exception occurred: {exception}")
   
   # Calculating the penalty
   penalty = 0
@@ -139,3 +143,4 @@ def objective_function_2(parameters, design_variables):
     penalty = 1e4*((-100 - omega)**2)
   
   return abs(exp0) - penalty
+  

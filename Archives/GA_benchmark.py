@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import cmath as cm
 import numpy as np
 from scipy.optimize import differential_evolution

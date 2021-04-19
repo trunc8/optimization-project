@@ -144,13 +144,13 @@ def runGeneticAlgorithm():
   print("Optimal value of omega = {} \n".format(best_values[12]))
 
 
-if __name__ == '__main__':
-  print("Starting timer...\n")
+# if __name__ == '__main__':
+#   print("Starting timer...\n")
 
-  start = timeit.default_timer()
+#   start = timeit.default_timer()
 
-  runGeneticAlgorithm()
+#   runGeneticAlgorithm()
 
-  stop = timeit.default_timer()
+#   stop = timeit.default_timer()
 
-  print(f'Time taken: {stop - start:.3f}s')
+#   print(f'Time taken: {stop - start:.3f}s')
