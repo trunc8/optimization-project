@@ -1,0 +1,4 @@
+numpy==1.20.2
+pyswarm==0.6
+scipy==1.6.2
+tqdm==4.60.0

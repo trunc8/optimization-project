@@ -13,7 +13,6 @@ from tqdm import tqdm
 from objective_function import objective_function_1, objective_function_2
 
 # Import of optimization libraries and algorithms
-
 #### Genetic Algorithm
 from genetic_algorithm import genetic_algorithm
 from scipy.optimize import differential_evolution
@@ -35,10 +34,12 @@ class Suspension_Optimizer:
     self.verbose = True
     self.series_of_best_values = []
 
+
   def evalObjective1(self, design_variables):
     # design variables = [k1,k2,k4,k5,c1,c2,c4,c5,b1,b2,w1,w2]
     # parameters1 = [omega]
     return -objective_function_1(self.parameters1, design_variables, self.bounds1)
+
 
   def evalObjective2(self, design_variables):
     # design variables = [omega]
@@ -67,7 +68,6 @@ class Suspension_Optimizer:
     best_values = np.zeros(13)
     obj_value = 0
 
-
     # Initialising the parameters to the objective function  
     self.parameters1 = [10] # Initialize with value of omega
     self.parameters2 = [] # Empty list as we will feed value from first optimization
@@ -92,6 +92,7 @@ class Suspension_Optimizer:
         best_values[12] = self.parameters1
         obj_value = result['fun']
       
+
       elif self.algorithm == 'GA_benchmark':
         result = differential_evolution(self.evalObjective1, self.bounds1, seed=0)
         self.parameters2 = result.x
@@ -102,6 +103,7 @@ class Suspension_Optimizer:
         best_values[12] = self.parameters1
         obj_value = result.fun
       
+
       elif self.algorithm == 'SA':
         n_iterations = 1000
         step_size =0.1
@@ -117,12 +119,8 @@ class Suspension_Optimizer:
         best_values[12] = self.parameters1
         obj_value = score
       
+
       elif self.algorithm == 'SA_benchmark':
-        # result =dual_annealing(evalObjective1, bounds=list(zip(lb, ub)), seed=1234)
-        # parameters2 = result['x']
-        # best_values[:12] = parameters2
-
-
         result = dual_annealing(self.evalObjective1, self.bounds1, seed=0)
         self.parameters2 = result.x
         best_values[:12] = self.parameters2
@@ -132,6 +130,7 @@ class Suspension_Optimizer:
         best_values[12] = self.parameters1
         obj_value = result.fun
       
+
       elif self.algorithm == 'PSO':
         numdesign = 12
         xopt, fopt = Particle_swarm(self.evalObjective1, numdesign, self.bounds1, 25, 30000)
@@ -144,6 +143,7 @@ class Suspension_Optimizer:
         best_values[12] = self.parameters1[0]
         obj_value = fopt
       
+
       elif self.algorithm == 'PSO_benchmark':
         lb = [bound[0] for bound in self.bounds1]
         ub = [bound[1] for bound in self.bounds1]
@@ -158,6 +158,7 @@ class Suspension_Optimizer:
         best_values[12] = self.parameters1
         obj_value = fopt
       
+
       else:
         print("Algorithm not in list! Exiting.")
         sys.exit(0)
@@ -182,6 +183,7 @@ class Suspension_Optimizer:
         print("Objective value after iteration {} = {} \n".format(t+1, obj_value))
         print('\n -------------- End of Iteration {} -------------- \n \n \n'.format(t+1))
 
+    # Store to csv file
     with open(os.path.join(sys.path[0], f'../results/{self.algorithm}_design_variables.csv'), 'w') as file:
       writer = csv.writer(file)
       writer.writerow(["k1","k2","k4","k5","c1","c2","c4","c5","b1","b2","w1","w2","omega","Objective"])
@@ -207,32 +209,41 @@ if __name__ == '__main__':
   # Setting random seeds as fixed for repeatability
   random.seed(0)
   np.random.seed(0)
-  # Create an object of Optimizer class and give it algorithm name
+
+  # Create an object of Optimizer class in order to provide it user's 
+  # choice of algorithm and verbosity
   optimizer_object = Suspension_Optimizer()
 
   # Read algorithm name from terminal input
   parser = argparse.ArgumentParser(description='Optimize car suspension using '+
                                                'different optimization methods')
-  parser.add_argument('-a', '--algorithm', help='Input optimization method', default='GA_benchmark')
-  parser.add_argument('-v', action='store_true', help='Verbose output')
+  algorithm_help = """Input optimization method. List of available algorithms are-
+  GA: Genetic algorithm,
+  GA_benchmark: scipy's differential evolution library,
+  SA: Simulation algorithm,
+  SA_benchmark: scipy's dual annealing library,
+  PSO: Particle Swarm optimization,
+  PSO_benchmark: pyswarm's pso library
+  """
+  parser.add_argument('-a', '--algorithm', help=algorithm_help, default='GA_benchmark')
+  parser.add_argument('-v', action='store_true', help='Turn on verbose output')
   args = parser.parse_args()
 
+  optimizer_object.verbose = args.v
   if args.algorithm in ["GA", "GA_benchmark", "SA", "SA_benchmark", "PSO", "PSO_benchmark"]:
     optimizer_object.algorithm = args.algorithm
   else:
     optimizer_object.algorithm = "GA_benchmark"
 
-  optimizer_object.verbose = args.v
-
-
   print("\nWelcome! This script will optimize our objective using ",
         f"{optimizer_object.algorithm}\n")
 
   print("Starting timer...\n")
+
   start = timeit.default_timer()
-
-  optimizer_object.runOptimizer()
-
+  optimizer_object.runOptimizer() # Actual code
   stop = timeit.default_timer()
+
   print(f'Time taken by {optimizer_object.algorithm}: {stop - start:.3f}s')
+
   print("Thank you!")

@@ -9,7 +9,7 @@ from numpy import exp
 from numpy.random import randn
 from numpy.random import rand
 from numpy.random import seed
-from matplotlib import pyplot
+# from matplotlib import pyplot
 
 parameters1, parameters2 = [], []
 bounds1 = []
