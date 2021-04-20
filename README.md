@@ -25,3 +25,9 @@ python3 code/suspension_optimization.py -a SA -v
 ```
 
 The results are automatically written to csv file with the corresponding algorithm name in the `results` directory.
+
+
+Finally, in order to compare performance of all algorithms against the [test objective functions](code/test_objectives.py), execute
+```
+python3 code/testing.py
+```
