@@ -1,0 +1,95 @@
+
+Welcome! This script will test all our optimization algorithms
+
+Starting timer...
+
+
+Testing against custom function 1
+
+GA
+optimal point: [30827.652, 21638.416, -1933.215, 22875.776, -24333.387, -19873.195, -12118.404, 29952.797, 18554.307, 25499.651]
+optimal function value: 9941816618.424547
+GA_benchmark
+optimal point: [1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5]
+optimal function value: 45.00000000000014
+SA
+optimal point: [1.511, 1.501, 1.542, 1.497, 1.491, 1.48, 1.504, 1.554, 1.474, 1.488]
+optimal function value: 45.01220611452562
+SA_benchmark
+optimal point: [1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5]
+optimal function value: 45.000000000000256
+PSO
+optimal point: [1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5]
+optimal function value: 45.000000000000014
+PSO_benchmark
+Stopping search: maximum iterations reached --> 30000
+optimal point: [1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5]
+optimal function value: 45.0
+
+Testing against custom function 2
+
+GA
+optimal point: [-40021.132, 6191.169, -1774.813, -12997.762, -2850.504, 25317.742, -1055.441, -9186.169, 4338.884, 38733.141]
+optimal function value: 131613269173154.33
+GA_benchmark
+optimal point: [29.354, 29.354, 29.354, 29.354, 29.354, 29.354, -22.237, -22.237, 29.354, 29.354]
+optimal function value: -105.78528300380474
+SA
+optimal point: [-22.255, -22.216, 29.352, 29.344, 29.321, -22.202, -22.252, -22.254, 29.347, 29.373]
+optimal function value: -83.98366942436986
+SA_benchmark
+optimal point: [29.354, 29.354, 29.354, 29.354, 29.354, 29.354, 29.354, 29.354, 29.354, 29.354]
+optimal function value: -120.31951738508823
+PSO
+optimal point: [29.354, -22.237, 29.354, -22.237, 29.354, 29.354, -22.237, 29.354, 29.354, -22.237]
+optimal function value: -91.25104862691167
+PSO_benchmark
+Stopping search: maximum iterations reached --> 30000
+optimal point: [29.354, 29.354, 29.354, 29.354, 29.354, 29.354, 29.354, 29.354, 29.354, 29.354]
+optimal function value: -120.31951738510676
+
+Testing against Himmelblau function
+
+GA
+optimal point: [-51063.441, 127369.289]
+optimal function value: 2.699815788182805e+20
+GA_benchmark
+optimal point: [-3.779, -3.283]
+optimal function value: 1.534334460654868e-27
+SA
+optimal point: [3.0, 2.0]
+optimal function value: 5.071820623370162e-06
+SA_benchmark
+optimal point: [-2.805, 3.131]
+optimal function value: 2.8718516952089966e-13
+PSO
+optimal point: [-2.805, 3.131]
+optimal function value: 7.888609052210118e-31
+PSO_benchmark
+Stopping search: maximum iterations reached --> 30000
+optimal point: [-2.805, 3.131]
+optimal function value: 7.888609052210118e-31
+
+Testing against Banana function
+
+GA
+optimal point: [-126768.034, -41271.886]
+optimal function value: 2.5825054553869527e+20
+GA_benchmark
+optimal point: [1.0, 1.0]
+optimal function value: 4.000000000002197
+SA
+optimal point: [0.999, 0.998]
+optimal function value: 4.000000524174514
+SA_benchmark
+optimal point: [1.0, 1.0]
+optimal function value: 4.000000000000002
+PSO
+optimal point: [1.0, 1.0]
+optimal function value: 4.0
+PSO_benchmark
+Stopping search: maximum iterations reached --> 30000
+optimal point: [1.0, 1.0]
+optimal function value: 4.0
+Time taken by testing: 124.058s
+Thank you!

@@ -140,33 +140,10 @@ if __name__ == '__main__':
   random.seed(0)
   np.random.seed(0)
 
-  # Create an object of Optimizer class in order to provide it user's 
-  # choice of algorithm and verbosity
+  # Create an object of Optimizer class
   optimizer_object = Test_Optimizer()
 
-  # Read algorithm name from terminal input
-  parser = argparse.ArgumentParser(description='Optimize car suspension using '+
-                                               'different optimization methods')
-  algorithm_help = """Input optimization method. List of available algorithms are-
-  GA: Genetic algorithm,
-  GA_benchmark: scipy's differential evolution library,
-  SA: Simulation algorithm,
-  SA_benchmark: scipy's dual annealing library,
-  PSO: Particle Swarm optimization,
-  PSO_benchmark: pyswarm's pso library
-  """
-  parser.add_argument('-a', '--algorithm', help=algorithm_help, default='GA_benchmark')
-  parser.add_argument('-v', action='store_true', help='Turn on verbose output')
-  args = parser.parse_args()
-
-  optimizer_object.verbose = args.v
-  if args.algorithm in ["GA", "GA_benchmark", "SA", "SA_benchmark", "PSO", "PSO_benchmark"]:
-    optimizer_object.algorithm = args.algorithm
-  else:
-    optimizer_object.algorithm = "GA_benchmark"
-
-  print("\nWelcome! This script will optimize our objective using ",
-        f"{optimizer_object.algorithm}\n")
+  print("\nWelcome! This script will test all our optimization algorithms\n")
 
   print("Starting timer...\n")
 
@@ -174,6 +151,6 @@ if __name__ == '__main__':
   optimizer_object.runTests()
   stop = timeit.default_timer()
 
-  print(f'Time taken by {optimizer_object.algorithm}: {stop - start:.3f}s')
+  print(f'Time taken by testing: {stop - start:.3f}s')
 
   print("Thank you!")
