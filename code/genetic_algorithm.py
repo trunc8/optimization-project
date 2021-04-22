@@ -4,7 +4,7 @@ import numpy as np
 def fitness_function(objective, design_variables):
   fitness_value = np.zeros(design_variables.shape)
   for i in range(len(design_variables)):
-    fitness_value[i] = objective(design_variables[i])
+    fitness_value[i] = -objective(design_variables[i])
   return fitness_value
 
 
@@ -61,6 +61,6 @@ def genetic_algorithm(objective, bounds, number_of_design_variables):
     # best_values[0:12] = -1*curr_population[best_fitness_value_index, :]
     
     result = {}
-    result["fun"] = fitness[best_fitness_value_index][0]
+    result["fun"] = -fitness[best_fitness_value_index][0]
     result["x"] = curr_population[best_fitness_value_index, :]
     return result
