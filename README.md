@@ -6,7 +6,7 @@ Course project for AE755 [Optimization for Engineering Design], Spring 2021
 #### Project Title
 > Design of Full Car Suspension Model to Maximize Rider Comfort
 
-![System Image](assets/system-image.png){:width="500px"}
+![System Image](assets/system-image.png | width=500)
 
 ### Usage
 ```
