@@ -1,6 +1,10 @@
 # Optimization Project
-#### Team Cars
-Course project for AE755 [Optimization in Engineering]
+Course project for AE755 [Optimization for Engineering Design], Spring 2021
+
+---
+
+#### Project Title
+> Design of Full Car Suspension Model to Maximize Rider Comfort
 
 ### Usage
 ```
@@ -31,3 +35,15 @@ Finally, in order to compare performance of all algorithms against the [test obj
 ```
 python3 code/testing.py
 ```
+
+### Author(s)
+
+* **Siddharth Saha** - [trunc8](https://github.com/trunc8)
+* **Nabajyoti Majumdar** - [blackenwhite](https://github.com/blackenwhite)
+* **Manthan Dhisale** - [ManthanND](https://github.com/ManthanND)
+* **Saurabh Parekh** - [sp1999](https://github.com/sp1999)
+* **Rohith Janjanam** - [RohithJanjanam45](https://github.com/RohithJanjanam45)
+* **Ishan Phansalkar**
+* **Chinmay Gandhshreewar**
+
+<p align='center'>Created with :heart: by <a href="https://www.linkedin.com/in/sahasiddharth611/">Siddharth</a></p>
